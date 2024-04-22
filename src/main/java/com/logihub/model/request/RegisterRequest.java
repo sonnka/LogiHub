@@ -31,7 +31,6 @@ public class RegisterRequest {
     @Size(min = 5, max = 24)
     private String password;
 
-    @NotEmpty
     @NotNull
     private Long companyId;
 }

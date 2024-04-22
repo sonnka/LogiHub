@@ -24,7 +24,13 @@ public class AuthException extends Exception {
     public enum AuthExceptionProfile {
 
         EMAIL_OCCUPIED("email_occupied",
-                "User with such email already exists.", HttpStatus.UNAUTHORIZED),
+                "User with such email already exists.", HttpStatus.BAD_REQUEST),
+
+        NAME_OCCUPIED("name_occupied",
+                "Company with such name already exists.", HttpStatus.BAD_REQUEST),
+
+        COMPANY_NOT_FOUND("company_not_found",
+                "Company with such id is not found.", HttpStatus.BAD_REQUEST),
 
         REGISTRATION_FAILED("registration_failed",
                 "Registration is failed. Try again later.", HttpStatus.UNAUTHORIZED),

@@ -50,6 +50,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui-custom.html").permitAll()
                         .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/api/login/**").permitAll()
+                        .requestMatchers("/api/register/**").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
                 );

@@ -1,9 +1,13 @@
 package com.logihub.service.impl;
 
 import com.logihub.exception.AuthException;
+import com.logihub.model.entity.ParkingCompany;
 import com.logihub.model.entity.ParkingManager;
+import com.logihub.model.enums.CompanyType;
 import com.logihub.model.enums.Role;
+import com.logihub.model.request.CompanyRequest;
 import com.logihub.model.request.RegisterRequest;
+import com.logihub.model.response.CompanyDTO;
 import com.logihub.model.response.ParkingManagerDTO;
 import com.logihub.repository.ParkingCompanyRepository;
 import com.logihub.repository.UserRepository;
@@ -16,9 +20,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ParkingManagerServiceImpl implements ParkingManagerService {
 
+    private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private ParkingCompanyRepository parkingCompanyRepository;
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public ParkingManagerDTO registerParkingManager(RegisterRequest newParkingManager) throws AuthException {
@@ -28,7 +32,7 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
         }
 
         var company = parkingCompanyRepository.findById(newParkingManager.getCompanyId()).orElseThrow(
-                () -> new AuthException(AuthException.AuthExceptionProfile.EMAIL_OCCUPIED)
+                () -> new AuthException(AuthException.AuthExceptionProfile.COMPANY_NOT_FOUND)
         );
 
         ParkingManager parkingManager = ParkingManager.builder()
@@ -41,5 +45,23 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
                 .build();
 
         return new ParkingManagerDTO(userRepository.save(parkingManager));
+    }
+
+    @Override
+    public CompanyDTO registerParkingCompany(CompanyRequest newParkingCompany) throws AuthException {
+        var company = parkingCompanyRepository.findByName(newParkingCompany.getName()).orElse(null);
+
+        if (company != null) {
+            throw new AuthException(AuthException.AuthExceptionProfile.NAME_OCCUPIED);
+        }
+
+        return new CompanyDTO(
+                parkingCompanyRepository.save(ParkingCompany.builder()
+                        .name(newParkingCompany.getName())
+                        .logo(newParkingCompany.getLogo())
+                        .type(CompanyType.PARKING_COMPANY)
+                        .build()
+                )
+        );
     }
 }
