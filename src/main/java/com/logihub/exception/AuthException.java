@@ -32,6 +32,9 @@ public class AuthException extends Exception {
         COMPANY_NOT_FOUND("company_not_found",
                 "Company with such id is not found.", HttpStatus.BAD_REQUEST),
 
+        INVALID_COMPANY_TYPE("invalid_company_type",
+                "Companies with such type do not exist.", HttpStatus.BAD_REQUEST),
+
         REGISTRATION_FAILED("registration_failed",
                 "Registration is failed. Try again later.", HttpStatus.UNAUTHORIZED),
 

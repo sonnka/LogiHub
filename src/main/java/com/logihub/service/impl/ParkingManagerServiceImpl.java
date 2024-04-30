@@ -1,13 +1,9 @@
 package com.logihub.service.impl;
 
 import com.logihub.exception.AuthException;
-import com.logihub.model.entity.ParkingCompany;
 import com.logihub.model.entity.ParkingManager;
-import com.logihub.model.enums.CompanyType;
 import com.logihub.model.enums.Role;
-import com.logihub.model.request.CompanyRequest;
 import com.logihub.model.request.RegisterRequest;
-import com.logihub.model.response.CompanyDTO;
 import com.logihub.model.response.ParkingManagerDTO;
 import com.logihub.repository.ParkingCompanyRepository;
 import com.logihub.repository.UserRepository;
@@ -45,23 +41,5 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
                 .build();
 
         return new ParkingManagerDTO(userRepository.save(parkingManager));
-    }
-
-    @Override
-    public CompanyDTO registerParkingCompany(CompanyRequest newParkingCompany) throws AuthException {
-        var company = parkingCompanyRepository.findByName(newParkingCompany.getName()).orElse(null);
-
-        if (company != null) {
-            throw new AuthException(AuthException.AuthExceptionProfile.NAME_OCCUPIED);
-        }
-
-        return new CompanyDTO(
-                parkingCompanyRepository.save(ParkingCompany.builder()
-                        .name(newParkingCompany.getName())
-                        .logo(newParkingCompany.getLogo())
-                        .type(CompanyType.PARKING_COMPANY)
-                        .build()
-                )
-        );
     }
 }
