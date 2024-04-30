@@ -1,9 +1,8 @@
 package com.logihub.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Builder
@@ -37,6 +36,8 @@ public class Item {
     @Column(name = "total_price")
     private Double totalPrice;
 
-    @ManyToMany(mappedBy = "items")
-    private List<Invoice> invoices;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
 }

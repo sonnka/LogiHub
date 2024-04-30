@@ -5,8 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-
-    <changeSet id="1713695091981-1" author="1 (generated)">
+    <changeSet id="1714506685897-1" author="1 (generated)">
         <createTable tableName="admins">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_admins"/>
@@ -18,7 +17,7 @@
             <column name="is_new_account" type="BOOLEAN"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-2" author="1 (generated)">
+    <changeSet id="1714506685897-2" author="1 (generated)">
         <createTable tableName="companies">
             <column autoIncrement="true" name="company_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_companies"/>
@@ -28,7 +27,7 @@
             <column name="company_type" type="ENUM('PARKING_COMPANY', 'TRUCK_COMPANY')"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-3" author="1 (generated)">
+    <changeSet id="1714506685897-3" author="1 (generated)">
         <createTable tableName="invoices">
             <column autoIncrement="true" name="invoice_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_invoices"/>
@@ -47,17 +46,7 @@
             <column name="is_signed_by_parking_manager" type="BOOLEAN"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-4" author="1 (generated)">
-        <createTable tableName="item_invoice">
-            <column name="invoice_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="item_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet id="1713695091981-5" author="1 (generated)">
+    <changeSet id="1714506685897-4" author="1 (generated)">
         <createTable tableName="items">
             <column autoIncrement="true" name="item_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_items"/>
@@ -68,16 +57,17 @@
             <column name="amount" type="BIGINT"/>
             <column name="total_weight" type="DOUBLE"/>
             <column name="total_price" type="DOUBLE"/>
+            <column name="invoice_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-6" author="1 (generated)">
+    <changeSet id="1714506685897-5" author="1 (generated)">
         <createTable tableName="parking_companies">
             <column name="company_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_parking_companies"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-7" author="1 (generated)">
+    <changeSet id="1714506685897-6" author="1 (generated)">
         <createTable tableName="parking_managers">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_parking_managers"/>
@@ -85,7 +75,7 @@
             <column name="parking_company_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-8" author="1 (generated)">
+    <changeSet id="1714506685897-7" author="1 (generated)">
         <createTable tableName="parking_places">
             <column autoIncrement="true" name="parking_place_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_parking_places"/>
@@ -103,14 +93,14 @@
             <column name="hourly_pay" type="DOUBLE"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-9" author="1 (generated)">
+    <changeSet id="1714506685897-8" author="1 (generated)">
         <createTable tableName="truck_companies">
             <column name="company_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_truck_companies"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-10" author="1 (generated)">
+    <changeSet id="1714506685897-9" author="1 (generated)">
         <createTable tableName="truck_managers">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_truck_managers"/>
@@ -118,7 +108,7 @@
             <column name="truck_company_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-11" author="1 (generated)">
+    <changeSet id="1714506685897-10" author="1 (generated)">
         <createTable tableName="trucks">
             <column autoIncrement="true" name="truck_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_trucks"/>
@@ -131,7 +121,7 @@
             <column name="weight" type="DOUBLE"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-12" author="1 (generated)">
+    <changeSet id="1714506685897-11" author="1 (generated)">
         <createTable tableName="users">
             <column autoIncrement="true" name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
@@ -144,78 +134,72 @@
             <column name="role" type="ENUM('TRUCK_MANAGER', 'PARKING_MANAGER', 'CHIEF_ADMIN', 'ADMIN')"/>
         </createTable>
     </changeSet>
-    <changeSet id="1713695091981-13" author="1 (generated)">
+    <changeSet id="1714506685897-12" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="admins" constraintName="FK_ADMINS_ON_USER"
                                  referencedColumnNames="user_id" referencedTableName="users"/>
     </changeSet>
-    <changeSet id="1713695091981-14" author="1 (generated)">
+    <changeSet id="1714506685897-13" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="parking_manager_id" baseTableName="invoices"
                                  constraintName="FK_INVOICES_ON_PARKING_MANAGER" referencedColumnNames="user_id"
                                  referencedTableName="parking_managers"/>
     </changeSet>
-    <changeSet id="1713695091981-15" author="1 (generated)">
+    <changeSet id="1714506685897-14" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="parking_place" baseTableName="invoices"
                                  constraintName="FK_INVOICES_ON_PARKING_PLACE" referencedColumnNames="parking_place_id"
                                  referencedTableName="parking_places"/>
     </changeSet>
-    <changeSet id="1713695091981-16" author="1 (generated)">
+    <changeSet id="1714506685897-15" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="truck_id" baseTableName="invoices"
                                  constraintName="FK_INVOICES_ON_TRUCK" referencedColumnNames="truck_id"
                                  referencedTableName="trucks"/>
     </changeSet>
-    <changeSet id="1713695091981-17" author="1 (generated)">
+    <changeSet id="1714506685897-16" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="truck_manager_id" baseTableName="invoices"
                                  constraintName="FK_INVOICES_ON_TRUCK_MANAGER" referencedColumnNames="user_id"
                                  referencedTableName="truck_managers"/>
     </changeSet>
-    <changeSet id="1713695091981-18" author="1 (generated)">
+    <changeSet id="1714506685897-17" author="1 (generated)">
+        <addForeignKeyConstraint baseColumnNames="invoice_id" baseTableName="items" constraintName="FK_ITEMS_ON_INVOICE"
+                                 referencedColumnNames="invoice_id" referencedTableName="invoices"/>
+    </changeSet>
+    <changeSet id="1714506685897-18" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="parking_companies"
                                  constraintName="FK_PARKING_COMPANIES_ON_COMPANY" referencedColumnNames="company_id"
                                  referencedTableName="companies"/>
     </changeSet>
-    <changeSet id="1713695091981-19" author="1 (generated)">
+    <changeSet id="1714506685897-19" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="parking_company_id" baseTableName="parking_managers"
                                  constraintName="FK_PARKING_MANAGERS_ON_PARKING_COMPANY"
                                  referencedColumnNames="company_id" referencedTableName="parking_companies"/>
     </changeSet>
-    <changeSet id="1713695091981-20" author="1 (generated)">
+    <changeSet id="1714506685897-20" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="parking_managers"
                                  constraintName="FK_PARKING_MANAGERS_ON_USER" referencedColumnNames="user_id"
                                  referencedTableName="users"/>
     </changeSet>
-    <changeSet id="1713695091981-21" author="1 (generated)">
+    <changeSet id="1714506685897-21" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="parking_manager_id" baseTableName="parking_places"
                                  constraintName="FK_PARKING_PLACES_ON_PARKING_MANAGER" referencedColumnNames="user_id"
                                  referencedTableName="parking_managers"/>
     </changeSet>
-    <changeSet id="1713695091981-22" author="1 (generated)">
+    <changeSet id="1714506685897-22" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="truck_manager_id" baseTableName="trucks"
                                  constraintName="FK_TRUCKS_ON_TRUCK_MANAGER" referencedColumnNames="user_id"
                                  referencedTableName="truck_managers"/>
     </changeSet>
-    <changeSet id="1713695091981-23" author="1 (generated)">
+    <changeSet id="1714506685897-23" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="truck_companies"
                                  constraintName="FK_TRUCK_COMPANIES_ON_COMPANY" referencedColumnNames="company_id"
                                  referencedTableName="companies"/>
     </changeSet>
-    <changeSet id="1713695091981-24" author="1 (generated)">
+    <changeSet id="1714506685897-24" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="truck_company_id" baseTableName="truck_managers"
                                  constraintName="FK_TRUCK_MANAGERS_ON_TRUCK_COMPANY" referencedColumnNames="company_id"
                                  referencedTableName="truck_companies"/>
     </changeSet>
-    <changeSet id="1713695091981-25" author="1 (generated)">
+    <changeSet id="1714506685897-25" author="1 (generated)">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="truck_managers"
                                  constraintName="FK_TRUCK_MANAGERS_ON_USER" referencedColumnNames="user_id"
                                  referencedTableName="users"/>
-    </changeSet>
-    <changeSet id="1713695091981-26" author="1 (generated)">
-        <addForeignKeyConstraint baseColumnNames="invoice_id" baseTableName="item_invoice"
-                                 constraintName="fk_iteinv_on_invoice" referencedColumnNames="invoice_id"
-                                 referencedTableName="invoices"/>
-    </changeSet>
-    <changeSet id="1713695091981-27" author="1 (generated)">
-        <addForeignKeyConstraint baseColumnNames="item_id" baseTableName="item_invoice"
-                                 constraintName="fk_iteinv_on_item" referencedColumnNames="item_id"
-                                 referencedTableName="items"/>
     </changeSet>
 </databaseChangeLog>

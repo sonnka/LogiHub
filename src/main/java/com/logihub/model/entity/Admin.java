@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @SuperBuilder
@@ -38,5 +39,21 @@ public class Admin extends User {
         this.setRole(Role.ADMIN);
         this.setApproved(false);
         this.setNewAccount(true);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Admin admin = (Admin) o;
+        return approved == admin.approved && newAccount == admin.newAccount &&
+                Objects.equals(dateOfApproving, admin.dateOfApproving) &&
+                Objects.equals(dateOfAdding, admin.dateOfAdding) && Objects.equals(addedBy, admin.addedBy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), dateOfApproving, dateOfAdding, addedBy, approved, newAccount);
     }
 }

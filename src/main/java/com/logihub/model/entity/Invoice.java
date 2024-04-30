@@ -36,11 +36,9 @@ public class Invoice {
     @JoinColumn(name = "parking_place")
     private ParkingPlace parkingPlace;
 
-    @ManyToMany
-    @JoinTable(
-            name = "item_invoice",
-            joinColumns = @JoinColumn(name = "invoice_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "invoice")
+    @JsonIgnore
+    @Column(name = "items")
     private List<Item> items;
 
     @ManyToOne
