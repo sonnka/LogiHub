@@ -28,6 +28,10 @@ public class TruckException extends Exception {
 
         FORBIDDEN("forbidden",
                 "You cannot change the truck information because you are not its manager.",
+                HttpStatus.FORBIDDEN),
+
+        TRUCK_HAS_MANAGER("truck_has_manager",
+                "Truck has already had manager.",
                 HttpStatus.FORBIDDEN);
 
         private final String exceptionName;

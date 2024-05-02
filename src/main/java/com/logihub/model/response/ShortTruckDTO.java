@@ -1,11 +1,13 @@
 package com.logihub.model.response;
 
 import com.logihub.model.entity.Truck;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class ShortTruckDTO {
 
     private Long id;
@@ -17,6 +19,10 @@ public class ShortTruckDTO {
     public ShortTruckDTO(Truck truck) {
         this.id = truck.getId();
         this.number = truck.getNumber();
-        this.truckManagerEmail = truck.getTruckManager().getEmail();
+        String email = "-";
+        if (truck.getTruckManager() != null) {
+            email = truck.getTruckManager().getEmail();
+        }
+        this.truckManagerEmail = email;
     }
 }

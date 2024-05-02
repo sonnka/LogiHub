@@ -50,4 +50,27 @@ public class TruckController {
                                                      Pageable pageable) throws UserException {
         return truckService.getTrucksByCompany(auth.getName(), userId, pageable);
     }
+
+    @GetMapping("/api/truck-manager/{user-id}/trucks/without-manager")
+    public Page<ShortTruckDTO> getAllTrucksByCompanyWithoutManager(Authentication auth,
+                                                                   @PathVariable("user-id") Long userId,
+                                                                   Pageable pageable) throws UserException {
+        return truckService.getTrucksByCompanyWithoutManager(auth.getName(), userId, pageable);
+    }
+
+    @PatchMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/remove-manager")
+    public TruckDTO removeTruckManager(Authentication auth,
+                                       @PathVariable("user-id") Long userId,
+                                       @PathVariable("truck-id") Long truckId)
+            throws UserException, TruckException {
+        return truckService.removeTruckManager(auth.getName(), userId, truckId);
+    }
+
+    @PatchMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/add-manager")
+    public TruckDTO addTruckManager(Authentication auth,
+                                    @PathVariable("user-id") Long userId,
+                                    @PathVariable("truck-id") Long truckId)
+            throws UserException, TruckException {
+        return truckService.addTruckManager(auth.getName(), userId, truckId);
+    }
 }

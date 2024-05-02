@@ -85,6 +85,50 @@ public class TruckServiceImpl implements TruckService {
                 .map(ShortTruckDTO::new);
     }
 
+    @Override
+    public Page<ShortTruckDTO> getTrucksByCompanyWithoutManager(String email, Long userId, Pageable pageable)
+            throws UserException {
+        var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        return truckRepository.findAllByTruckManager_CompanyAndTruckManagerIsEmpty(
+                truckManager.getCompany(), pageable).map(ShortTruckDTO::new);
+    }
+
+    @Override
+    public TruckDTO removeTruckManager(String email, Long userId, Long truckId)
+            throws TruckException, UserException {
+        var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        var truck = truckRepository.findById(truckId).orElseThrow(
+                () -> new TruckException(TruckException.TruckExceptionProfile.TRUCK_NOT_FOUND)
+        );
+
+        if (!Objects.equals(truck.getTruckManager().getId(), truckManager.getId())) {
+            throw new TruckException(TruckException.TruckExceptionProfile.FORBIDDEN);
+        }
+
+        truck.setTruckManager(null);
+
+        return toTruckDTO(truckRepository.save(truck));
+    }
+
+    @Override
+    public TruckDTO addTruckManager(String email, Long userId, Long truckId) throws UserException, TruckException {
+        var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        var truck = truckRepository.findById(truckId).orElseThrow(
+                () -> new TruckException(TruckException.TruckExceptionProfile.TRUCK_NOT_FOUND)
+        );
+
+        if (truck.getTruckManager() != null) {
+            throw new TruckException(TruckException.TruckExceptionProfile.TRUCK_HAS_MANAGER);
+        }
+
+        truck.setTruckManager(truckManager);
+
+        return toTruckDTO(truckRepository.save(truck));
+    }
+
     private TruckDTO toTruckDTO(Truck truck) {
         return TruckDTO.builder()
                 .number(truck.getNumber())

@@ -19,4 +19,11 @@ public interface TruckService {
     void deleteTruck(String email, Long userId, Long truckId) throws UserException, TruckException;
 
     Page<ShortTruckDTO> getTrucksByCompany(String email, Long userId, Pageable pageable) throws UserException;
+
+    Page<ShortTruckDTO> getTrucksByCompanyWithoutManager(String email, Long userId, Pageable pageable)
+            throws UserException;
+
+    TruckDTO removeTruckManager(String email, Long userId, Long truckId) throws TruckException, UserException;
+
+    TruckDTO addTruckManager(String email, Long userId, Long truckId) throws UserException, TruckException;
 }
