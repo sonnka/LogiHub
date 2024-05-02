@@ -18,7 +18,7 @@ public class ParkingManagerDTO {
 
     private String avatar;
 
-    private String companyName;
+    private CompanyDTO company;
 
     public ParkingManagerDTO(ParkingManager parkingManager) {
         this.id = parkingManager.getId();
@@ -26,6 +26,6 @@ public class ParkingManagerDTO {
         this.lastName = parkingManager.getLastName();
         this.email = parkingManager.getEmail();
         this.avatar = parkingManager.getAvatar();
-        this.companyName = parkingManager.getCompany().getName();
+        this.company = new CompanyDTO(parkingManager.getCompany());
     }
 }

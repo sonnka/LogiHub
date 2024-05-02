@@ -28,6 +28,17 @@ public class AuthUtil {
         return truckManager;
     }
 
+    public TruckManager findTruckManagerByEmailAndIdAndCheckByAdmin(String email, Long userId) throws UserException {
+        var truckManager = truckManagerRepository.findById(userId).orElseThrow(
+                () -> new UserException(UserException.UserExceptionProfile.TRUCK_MANAGER_NOT_FOUND));
+
+        if (!truckManager.getEmail().equals(email) && (!adminRepository.existsByEmailIgnoreCase(email))) {
+            throw new UserException(UserException.UserExceptionProfile.ADMIN_NOT_FOUND);
+        }
+
+        return truckManager;
+    }
+
     public ParkingManager findParkingManagerByEmailAndId(String email, Long managerId) throws UserException {
         var parkingManger = parkingManagerRepository.findById(managerId).orElseThrow(
                 () -> new UserException(UserException.UserExceptionProfile.PARKING_MANAGER_NOT_FOUND));
@@ -39,4 +50,15 @@ public class AuthUtil {
         return parkingManger;
     }
 
+    public ParkingManager findParkingManagerByEmailAndIdAndCheckByAdmin(String email, Long userId)
+            throws UserException {
+        var parkingManager = parkingManagerRepository.findById(userId).orElseThrow(
+                () -> new UserException(UserException.UserExceptionProfile.PARKING_MANAGER_NOT_FOUND));
+
+        if (!parkingManager.getEmail().equals(email) && (!adminRepository.existsByEmailIgnoreCase(email))) {
+            throw new UserException(UserException.UserExceptionProfile.ADMIN_NOT_FOUND);
+        }
+
+        return parkingManager;
+    }
 }

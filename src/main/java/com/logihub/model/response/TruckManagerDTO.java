@@ -18,7 +18,7 @@ public class TruckManagerDTO {
 
     private String avatar;
 
-    private String companyName;
+    private CompanyDTO company;
 
     public TruckManagerDTO(TruckManager truckManager) {
         this.id = truckManager.getId();
@@ -26,6 +26,6 @@ public class TruckManagerDTO {
         this.lastName = truckManager.getLastName();
         this.email = truckManager.getEmail();
         this.avatar = truckManager.getAvatar();
-        this.companyName = truckManager.getCompany().getName();
+        this.company = new CompanyDTO(truckManager.getCompany());
     }
 }
