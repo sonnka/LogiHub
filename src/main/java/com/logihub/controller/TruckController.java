@@ -4,10 +4,13 @@ import com.logihub.exception.TruckException;
 import com.logihub.exception.UserException;
 import com.logihub.model.request.TruckRequest;
 import com.logihub.model.request.UpdateTruckRequest;
+import com.logihub.model.response.ShortTruckDTO;
 import com.logihub.model.response.TruckDTO;
 import com.logihub.service.TruckService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +42,12 @@ public class TruckController {
                             @PathVariable("truck-id") Long truckId)
             throws UserException, TruckException {
         truckService.deleteTruck(auth.getName(), userId, truckId);
+    }
+
+    @GetMapping("/api/truck-manager/{user-id}/trucks")
+    public Page<ShortTruckDTO> getAllTrucksByCompany(Authentication auth,
+                                                     @PathVariable("user-id") Long userId,
+                                                     Pageable pageable) throws UserException {
+        return truckService.getTrucksByCompany(auth.getName(), userId, pageable);
     }
 }

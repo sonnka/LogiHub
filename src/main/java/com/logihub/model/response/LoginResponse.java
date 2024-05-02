@@ -1,20 +1,21 @@
 package com.logihub.model.response;
 
 import lombok.Builder;
+import lombok.Data;
 
 @Builder
-public record LoginResponse(
+@Data
+public class LoginResponse {
 
-        Long id,
+    private Long id;
 
-        String token,
+    private String token;
 
-        String name,
+    private String name;
 
-        String surname,
+    private String surname;
 
-        String role,
+    private String role;
 
-        String avatar
-) {
+    private String avatar;
 }

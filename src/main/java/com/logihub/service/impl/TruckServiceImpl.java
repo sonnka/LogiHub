@@ -5,12 +5,15 @@ import com.logihub.exception.UserException;
 import com.logihub.model.entity.Truck;
 import com.logihub.model.request.TruckRequest;
 import com.logihub.model.request.UpdateTruckRequest;
+import com.logihub.model.response.ShortTruckDTO;
 import com.logihub.model.response.TruckDTO;
 import com.logihub.model.response.TruckManagerDTO;
 import com.logihub.repository.TruckRepository;
 import com.logihub.service.TruckService;
 import com.logihub.util.AuthUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -71,6 +74,15 @@ public class TruckServiceImpl implements TruckService {
         }
 
         truckRepository.delete(truck);
+    }
+
+    @Override
+    public Page<ShortTruckDTO> getTrucksByCompany(String email, Long userId, Pageable pageable)
+            throws UserException {
+        var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        return truckRepository.findAllByTruckManager_Company(truckManager.getCompany(), pageable)
+                .map(ShortTruckDTO::new);
     }
 
     private TruckDTO toTruckDTO(Truck truck) {
