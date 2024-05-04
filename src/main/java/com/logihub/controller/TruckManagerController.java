@@ -1,9 +1,11 @@
 package com.logihub.controller;
 
 import com.logihub.exception.AuthException;
+import com.logihub.exception.TruckException;
 import com.logihub.exception.UserException;
 import com.logihub.model.request.RegisterRequest;
 import com.logihub.model.request.UpdateTruckManagerRequest;
+import com.logihub.model.response.ParkingPlaceDTO;
 import com.logihub.model.response.TruckManagerDTO;
 import com.logihub.service.TruckManagerService;
 import jakarta.validation.Valid;
@@ -49,5 +51,14 @@ public class TruckManagerController {
                                                      @PathVariable("company-id") Long companyId)
             throws UserException, AuthException {
         return truckManagerService.changeTruckManagerCompany(auth.getName(), userId, companyId);
+    }
+
+    @GetMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/companies/{company-id}/search-place")
+    public ParkingPlaceDTO changeTruckManagerCompany(Authentication auth,
+                                                     @PathVariable("user-id") Long userId,
+                                                     @PathVariable("truck-id") Long truckId,
+                                                     @PathVariable("company-id") Long companyId)
+            throws UserException, AuthException, TruckException {
+        return truckManagerService.searchParkingPlace(auth.getName(), userId, truckId, companyId);
     }
 }

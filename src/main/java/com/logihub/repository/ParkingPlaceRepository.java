@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ParkingPlaceRepository extends JpaRepository<ParkingPlace, Long> {
@@ -15,4 +16,6 @@ public interface ParkingPlaceRepository extends JpaRepository<ParkingPlace, Long
     Page<ParkingPlace> findAllByParkingManager_Company(Company company, Pageable pageable);
 
     Page<ParkingPlace> findAllByParkingManager_CompanyAndParkingManagerIsEmpty(Company company, Pageable pageable);
+
+    List<ParkingPlace> findAllByParkingManager_Company(Company company);
 }
