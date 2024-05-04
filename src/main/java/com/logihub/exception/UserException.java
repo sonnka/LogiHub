@@ -56,6 +56,9 @@ public class UserException extends Exception {
         SOMETHING_WRONG("something_wrong",
                 "Something went wrong.", HttpStatus.BAD_REQUEST),
 
+        PERMISSION_DENIED("permission_denied",
+                "Permission denied.", HttpStatus.FORBIDDEN),
+
         FORBIDDEN("forbidden",
                 "Driver has already have manager.", HttpStatus.BAD_REQUEST);
 
