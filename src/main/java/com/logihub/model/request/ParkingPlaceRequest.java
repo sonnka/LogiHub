@@ -14,6 +14,10 @@ public class ParkingPlaceRequest {
     @NotNull
     private String address;
 
+    @NotEmpty
+    @NotNull
+    private String placeNumber;
+
     @NotNull
     @Positive
     private Double minWidth;

@@ -77,6 +77,21 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
+    public TruckDTO getTruck(String email, Long userId, Long truckId) throws UserException, TruckException {
+        var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        var truck = truckRepository.findById(truckId).orElseThrow(
+                () -> new TruckException(TruckException.TruckExceptionProfile.TRUCK_NOT_FOUND)
+        );
+
+        if (!Objects.equals(truck.getTruckManager().getId(), truckManager.getId())) {
+            throw new TruckException(TruckException.TruckExceptionProfile.FORBIDDEN);
+        }
+
+        return toTruckDTO(truck);
+    }
+
+    @Override
     public Page<ShortTruckDTO> getTrucksByCompany(String email, Long userId, Pageable pageable)
             throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);

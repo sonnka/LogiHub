@@ -31,6 +31,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
         return new ParkingPlaceDTO(parkingPlaceRepository.save(ParkingPlace.builder()
                 .parkingManager(parkingManager)
+                .placeNumber(parkingPlace.getPlaceNumber())
                 .address(parkingPlace.getAddress())
                 .hourlyPay(parkingPlace.getHourlyPay())
                 .minHeight(parkingPlace.getMinHeight())
@@ -92,6 +93,23 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
     }
 
     @Override
+    public ParkingPlaceDTO getParkingPlace(String email, Long userId, Long placeId)
+            throws UserException, ParkingPlaceException {
+        var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
+
+        var parkingPlace = parkingPlaceRepository.findById(placeId).orElseThrow(
+                () -> new ParkingPlaceException(ParkingPlaceException.
+                        ParkingPlaceExceptionProfile.PARKING_PLACE_NOT_FOUND)
+        );
+
+        if (!Objects.equals(parkingPlace.getParkingManager().getId(), parkingManager.getId())) {
+            throw new ParkingPlaceException(ParkingPlaceException.ParkingPlaceExceptionProfile.FORBIDDEN);
+        }
+
+        return new ParkingPlaceDTO(parkingPlace);
+    }
+
+    @Override
     public Page<ShortParkingPlaceDTO> getAllParkingPlacesByCompany(String email, Long userId, Pageable pageable)
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
@@ -106,7 +124,8 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
 
-        return parkingPlaceRepository.findAllByParkingManager_Company(parkingManager.getCompany(), pageable)
+        return parkingPlaceRepository.findAllByParkingManager_CompanyAndParkingManagerIsEmpty(
+                        parkingManager.getCompany(), pageable)
                 .map(ShortParkingPlaceDTO::new);
     }
 

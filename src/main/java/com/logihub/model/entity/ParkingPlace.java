@@ -23,6 +23,9 @@ public class ParkingPlace {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "place_number")
+    private String placeNumber;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "parking_manager_id")

@@ -20,6 +20,8 @@ public interface ParkingPlaceService {
 
     void deleteParkingPlace(String email, Long userId, Long placeId) throws UserException, ParkingPlaceException;
 
+    ParkingPlaceDTO getParkingPlace(String email, Long userId, Long placeId) throws UserException, ParkingPlaceException;
+
     Page<ShortParkingPlaceDTO> getAllParkingPlacesByCompany(String email, Long userId,
                                                             Pageable pageable) throws UserException;
 

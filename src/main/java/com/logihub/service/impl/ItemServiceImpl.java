@@ -1,14 +1,12 @@
 package com.logihub.service.impl;
 
 import com.logihub.exception.InvoiceException;
-import com.logihub.exception.UserException;
 import com.logihub.model.entity.Invoice;
 import com.logihub.model.entity.Item;
 import com.logihub.model.request.ItemRequest;
 import com.logihub.repository.InvoiceRepository;
 import com.logihub.repository.ItemRepository;
 import com.logihub.service.ItemService;
-import com.logihub.util.AuthUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +18,10 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final InvoiceRepository invoiceRepository;
-    private final AuthUtil authUtil;
 
     @Override
-    public void addItems(String email, Long userId, Long invoiceId, List<ItemRequest> itemRequest)
-            throws UserException, InvoiceException {
-        authUtil.findTruckManagerByEmailAndId(email, userId);
+    public void addItems(Long invoiceId, List<ItemRequest> itemRequest)
+            throws InvoiceException {
 
         var invoice = invoiceRepository.findById(invoiceId).orElseThrow(
                 () -> new InvoiceException(InvoiceException.InvoiceExceptionProfile.INVOICE_NOT_FOUND)

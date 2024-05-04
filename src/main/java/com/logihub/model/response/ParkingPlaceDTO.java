@@ -10,6 +10,8 @@ public class ParkingPlaceDTO {
 
     private Long id;
 
+    private String placeNumber;
+
     private String address;
 
     private Double minWidth;
@@ -29,7 +31,7 @@ public class ParkingPlaceDTO {
     private Double maxWeight;
 
     private Double hourlyPay;
-    
+
     public ParkingPlaceDTO(ParkingPlace parkingPlace) {
         this.id = parkingPlace.getId();
         this.address = parkingPlace.getAddress();

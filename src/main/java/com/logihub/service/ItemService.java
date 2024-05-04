@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ItemService {
 
-    void addItems(String email, Long userId, Long invoiceId, List<ItemRequest> itemRequest)
+    void addItems(Long invoiceId, List<ItemRequest> itemRequest)
             throws UserException, InvoiceException;
 }
