@@ -17,5 +17,5 @@ public interface ParkingManagerService {
 
     void deleteParkingManager(String email, Long userId) throws UserException;
 
-    ParkingManagerDTO changeParkingManagerCompany(String email, Long userId, Long companyId) throws UserException;
+    ParkingManagerDTO changeParkingManagerCompany(String email, Long userId, Long companyId) throws UserException, AuthException;
 }

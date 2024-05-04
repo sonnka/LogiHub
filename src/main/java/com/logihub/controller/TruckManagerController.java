@@ -47,7 +47,7 @@ public class TruckManagerController {
     public TruckManagerDTO changeTruckManagerCompany(Authentication auth,
                                                      @PathVariable("user-id") Long userId,
                                                      @PathVariable("company-id") Long companyId)
-            throws UserException {
+            throws UserException, AuthException {
         return truckManagerService.changeTruckManagerCompany(auth.getName(), userId, companyId);
     }
 }

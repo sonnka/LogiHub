@@ -78,11 +78,11 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
 
     @Override
     public ParkingManagerDTO changeParkingManagerCompany(String email, Long userId, Long companyId)
-            throws UserException {
+            throws UserException, AuthException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
 
         var company = parkingCompanyRepository.findById(companyId).orElseThrow(
-                () -> new UserException(UserException.UserExceptionProfile.COMPANY_NOT_FOUND)
+                () -> new AuthException(AuthException.AuthExceptionProfile.COMPANY_NOT_FOUND)
         );
 
         parkingManager.setCompany(company);

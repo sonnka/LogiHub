@@ -3,9 +3,11 @@ package com.logihub.util;
 import com.logihub.exception.UserException;
 import com.logihub.model.entity.ParkingManager;
 import com.logihub.model.entity.TruckManager;
+import com.logihub.model.entity.User;
 import com.logihub.repository.AdminRepository;
 import com.logihub.repository.ParkingManagerRepository;
 import com.logihub.repository.TruckManagerRepository;
+import com.logihub.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,18 @@ public class AuthUtil {
     private AdminRepository adminRepository;
     private TruckManagerRepository truckManagerRepository;
     private ParkingManagerRepository parkingManagerRepository;
+    private UserRepository userRepository;
+
+    public User findUserByEmailAndId(String email, Long userId) throws UserException {
+        var user = userRepository.findById(userId).orElseThrow(
+                () -> new UserException(UserException.UserExceptionProfile.USER_NOT_FOUND));
+
+        if (!user.getEmail().equals(email)) {
+            throw new UserException(UserException.UserExceptionProfile.EMAIL_MISMATCH);
+        }
+
+        return user;
+    }
 
     public TruckManager findTruckManagerByEmailAndId(String email, Long managerId) throws UserException {
         var truckManager = truckManagerRepository.findById(managerId).orElseThrow(

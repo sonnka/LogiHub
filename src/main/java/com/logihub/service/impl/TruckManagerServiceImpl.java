@@ -75,13 +75,13 @@ public class TruckManagerServiceImpl implements TruckManagerService {
 
     @Override
     public TruckManagerDTO changeTruckManagerCompany(String email, Long userId, Long companyId)
-            throws UserException {
+            throws UserException, AuthException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
 
         var company = truckCompanyRepository.findById(companyId).orElseThrow(
-                () -> new UserException(UserException.UserExceptionProfile.COMPANY_NOT_FOUND)
+                () -> new AuthException(AuthException.AuthExceptionProfile.COMPANY_NOT_FOUND)
         );
-        
+
         truckManager.setCompany(company);
 
         return new TruckManagerDTO(truckManagerRepository.save(truckManager));

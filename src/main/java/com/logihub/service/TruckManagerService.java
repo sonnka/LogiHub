@@ -17,5 +17,5 @@ public interface TruckManagerService {
 
     void deleteTruckManager(String email, Long userId) throws UserException;
 
-    TruckManagerDTO changeTruckManagerCompany(String email, Long userId, Long companyId) throws UserException;
+    TruckManagerDTO changeTruckManagerCompany(String email, Long userId, Long companyId) throws UserException, AuthException;
 }

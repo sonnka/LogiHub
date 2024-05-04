@@ -47,7 +47,7 @@ public class ParkingManagerController {
     public ParkingManagerDTO changeParkingManagerCompany(Authentication auth,
                                                          @PathVariable("user-id") Long userId,
                                                          @PathVariable("company-id") Long companyId)
-            throws UserException {
+            throws UserException, AuthException {
         return parkingManagerService.changeParkingManagerCompany(auth.getName(), userId, companyId);
     }
 }

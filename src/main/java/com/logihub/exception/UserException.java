@@ -35,14 +35,14 @@ public class UserException extends Exception {
         PARKING_MANAGER_NOT_FOUND("parking_manager_not_found",
                 "Parking manager is not found.", HttpStatus.NOT_FOUND),
 
-        COMPANY_NOT_FOUND("company_not_found",
-                "Company is not found.", HttpStatus.NOT_FOUND),
-
         NOT_ADMIN("not_admin",
                 "You are not admin.", HttpStatus.FORBIDDEN),
 
         NOT_CHIEF_ADMIN("not_chief_admin",
                 "You are not chief admin.", HttpStatus.FORBIDDEN),
+
+        NOT_MANAGER("not_manager",
+                "You are not manager.", HttpStatus.FORBIDDEN),
 
         NOT_TRUCK_MANAGER("not_truck_manager",
                 "You are not truck manager.", HttpStatus.FORBIDDEN),

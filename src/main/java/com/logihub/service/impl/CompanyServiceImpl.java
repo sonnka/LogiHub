@@ -1,6 +1,7 @@
 package com.logihub.service.impl;
 
 import com.logihub.exception.AuthException;
+import com.logihub.exception.UserException;
 import com.logihub.model.entity.ParkingCompany;
 import com.logihub.model.entity.TruckCompany;
 import com.logihub.model.enums.CompanyType;
@@ -9,6 +10,7 @@ import com.logihub.model.response.CompanyDTO;
 import com.logihub.repository.ParkingCompanyRepository;
 import com.logihub.repository.TruckCompanyRepository;
 import com.logihub.service.CompanyService;
+import com.logihub.util.AuthUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
+    private final AuthUtil authUtil;
     private TruckCompanyRepository truckCompanyRepository;
     private ParkingCompanyRepository parkingCompanyRepository;
 
@@ -75,5 +78,35 @@ public class CompanyServiceImpl implements CompanyService {
             case PARKING_COMPANY -> parkingCompanyRepository.findAllByNameContainingIgnoreCase(name)
                     .stream().map(CompanyDTO::new).toList();
         };
+    }
+
+    @Override
+    public CompanyDTO updateCompany(String email, Long userId, Long companyId, CompanyRequest companyRequest)
+            throws AuthException, UserException {
+        var user = authUtil.findUserByEmailAndId(email, userId);
+
+        switch (user.getRole()) {
+            case TRUCK_MANAGER -> {
+                var company = truckCompanyRepository.findById(companyId).orElseThrow(
+                        () -> new AuthException(AuthException.AuthExceptionProfile.COMPANY_NOT_FOUND)
+                );
+
+                company.setName(companyRequest.getName());
+                company.setLogo(companyRequest.getLogo());
+
+                return new CompanyDTO(truckCompanyRepository.save(company));
+            }
+            case PARKING_MANAGER -> {
+                var company = parkingCompanyRepository.findById(companyId).orElseThrow(
+                        () -> new AuthException(AuthException.AuthExceptionProfile.COMPANY_NOT_FOUND)
+                );
+
+                company.setName(companyRequest.getName());
+                company.setLogo(companyRequest.getLogo());
+
+                return new CompanyDTO(parkingCompanyRepository.save(company));
+            }
+            default -> throw new UserException(UserException.UserExceptionProfile.NOT_MANAGER);
+        }
     }
 }
