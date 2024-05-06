@@ -60,7 +60,7 @@ public class UserException extends Exception {
                 "Permission denied.", HttpStatus.FORBIDDEN),
 
         FORBIDDEN("forbidden",
-                "Driver has already have manager.", HttpStatus.BAD_REQUEST);
+                "Forbidden.", HttpStatus.BAD_REQUEST);
 
 
         private final String exceptionName;

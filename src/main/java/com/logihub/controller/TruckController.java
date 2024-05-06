@@ -7,6 +7,7 @@ import com.logihub.model.request.UpdateTruckRequest;
 import com.logihub.model.response.ShortTruckDTO;
 import com.logihub.model.response.TruckDTO;
 import com.logihub.service.TruckService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,14 @@ public class TruckController {
         return truckService.createTruck(auth.getName(), userId, truckRequest);
     }
 
+    @GetMapping("/api/truck-manager/{user-id}/trucks/{truck-id}")
+    public TruckDTO getTruck(Authentication auth,
+                             @PathVariable("user-id") Long userId,
+                             @PathVariable("truck-id") Long truckId)
+            throws UserException, TruckException {
+        return truckService.getTruck(auth.getName(), userId, truckId);
+    }
+
     @PatchMapping("/api/truck-manager/{user-id}/trucks/{truck-id}")
     public TruckDTO updateTruck(Authentication auth,
                                 @PathVariable("user-id") Long userId,
@@ -36,6 +45,7 @@ public class TruckController {
         return truckService.updateTruck(auth.getName(), userId, truckId, truckRequest);
     }
 
+    @Transactional
     @DeleteMapping("/api/truck-manager/{user-id}/trucks/{truck-id}")
     public void deleteTruck(Authentication auth,
                             @PathVariable("user-id") Long userId,
@@ -58,6 +68,7 @@ public class TruckController {
         return truckService.getTrucksByCompanyWithoutManager(auth.getName(), userId, pageable);
     }
 
+    @Transactional
     @PatchMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/remove-manager")
     public TruckDTO removeTruckManager(Authentication auth,
                                        @PathVariable("user-id") Long userId,
@@ -66,6 +77,7 @@ public class TruckController {
         return truckService.removeTruckManager(auth.getName(), userId, truckId);
     }
 
+    @Transactional
     @PatchMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/add-manager")
     public TruckDTO addTruckManager(Authentication auth,
                                     @PathVariable("user-id") Long userId,

@@ -10,6 +10,7 @@ import com.logihub.model.response.ParkingManagerDTO;
 import com.logihub.model.response.TruckManagerDTO;
 import com.logihub.service.AdminService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -44,6 +45,7 @@ public class AdminController {
         return adminService.getParkingManagers(auth.getName(), adminId);
     }
 
+    @Transactional
     @DeleteMapping("/api/admins/{admin-id}/truck-managers/{truck-manager-id}")
     public void deleteTruckManager(Authentication auth,
                                    @PathVariable("admin-id") Long adminId,
@@ -52,6 +54,7 @@ public class AdminController {
         adminService.deleteTruckManager(auth.getName(), adminId, driverId);
     }
 
+    @Transactional
     @DeleteMapping("/api/admins/{admin-id}/parking-managers/{parking-manager-id}")
     public void deleteParkingManager(Authentication auth,
                                      @PathVariable("admin-id") Long adminId,
@@ -79,10 +82,10 @@ public class AdminController {
     }
 
     @PostMapping("/api/admins/{admin-id}/approve/{new-admin-id}")
-    public void approveAdmin(Authentication auth,
-                             @PathVariable("admin-id") Long adminId,
-                             @PathVariable("new-admin-id") Long newAdminId) throws UserException {
-        adminService.approveAdmin(auth.getName(), adminId, newAdminId);
+    public String approveAdmin(Authentication auth,
+                               @PathVariable("admin-id") Long adminId,
+                               @PathVariable("new-admin-id") Long newAdminId) throws UserException {
+        return adminService.approveAdmin(auth.getName(), adminId, newAdminId);
     }
 
     @PostMapping("/api/admins/{admin-id}/decline/{new-admin-id}")

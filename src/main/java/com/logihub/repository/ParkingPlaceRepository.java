@@ -15,7 +15,7 @@ public interface ParkingPlaceRepository extends JpaRepository<ParkingPlace, Long
 
     Page<ParkingPlace> findAllByParkingManager_Company(Company company, Pageable pageable);
 
-    Page<ParkingPlace> findAllByParkingManager_CompanyAndParkingManagerIsEmpty(Company company, Pageable pageable);
+    Page<ParkingPlace> findAllByParkingManager_CompanyAndParkingManagerIsNull(Company company, Pageable pageable);
 
     List<ParkingPlace> findAllByParkingManager_Company(Company company);
 }

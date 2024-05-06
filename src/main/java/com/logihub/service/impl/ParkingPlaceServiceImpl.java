@@ -124,7 +124,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
 
-        return parkingPlaceRepository.findAllByParkingManager_CompanyAndParkingManagerIsEmpty(
+        return parkingPlaceRepository.findAllByParkingManager_CompanyAndParkingManagerIsNull(
                         parkingManager.getCompany(), pageable)
                 .map(ShortParkingPlaceDTO::new);
     }

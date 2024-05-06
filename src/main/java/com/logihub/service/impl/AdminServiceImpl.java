@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void approveAdmin(String email, Long adminId, Long newAdminId) throws UserException {
+    public String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException {
         authUtil.checkAdminByEmailAndChief(email, adminId);
 
         var newAdmin = adminRepository.findById(newAdminId).orElseThrow(
@@ -93,6 +93,8 @@ public class AdminServiceImpl implements AdminService {
         newAdmin.setPassword(passwordEncoder.encode(password));
 
         adminRepository.save(newAdmin);
+
+        return password;
     }
 
     @Override

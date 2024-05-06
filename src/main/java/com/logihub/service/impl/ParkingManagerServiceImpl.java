@@ -42,7 +42,7 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
                 .firstName(newParkingManager.getFirstName())
                 .lastName(newParkingManager.getLastName())
                 .password(passwordEncoder.encode(newParkingManager.getPassword()))
-                .role(Role.TRUCK_MANAGER)
+                .role(Role.PARKING_MANAGER)
                 .company(company)
                 .build();
 

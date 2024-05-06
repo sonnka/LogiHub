@@ -27,7 +27,7 @@ public interface AdminService {
 
     List<AdminDTO> getNotApprovedAdmins(String email) throws UserException;
 
-    void approveAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException;
+    String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException;
 
     void declineAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException;
 

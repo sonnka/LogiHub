@@ -8,6 +8,7 @@ import com.logihub.model.request.UpdateTruckManagerRequest;
 import com.logihub.model.response.ParkingPlaceDTO;
 import com.logihub.model.response.TruckManagerDTO;
 import com.logihub.service.TruckManagerService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -39,12 +40,14 @@ public class TruckManagerController {
         return truckManagerService.updateTruckManager(auth.getName(), userId, truckManager);
     }
 
+    @Transactional
     @DeleteMapping("/api/truck-manager/{user-id}")
     public void deleteTruckManager(Authentication auth,
                                    @PathVariable("user-id") Long userId) throws UserException {
         truckManagerService.deleteTruckManager(auth.getName(), userId);
     }
 
+    @Transactional
     @PatchMapping("/api/truck-manager/{user-id}/company/{company-id}")
     public TruckManagerDTO changeTruckManagerCompany(Authentication auth,
                                                      @PathVariable("user-id") Long userId,
@@ -54,10 +57,10 @@ public class TruckManagerController {
     }
 
     @GetMapping("/api/truck-manager/{user-id}/trucks/{truck-id}/companies/{company-id}/search-place")
-    public ParkingPlaceDTO changeTruckManagerCompany(Authentication auth,
-                                                     @PathVariable("user-id") Long userId,
-                                                     @PathVariable("truck-id") Long truckId,
-                                                     @PathVariable("company-id") Long companyId)
+    public ParkingPlaceDTO searchParkingPlace(Authentication auth,
+                                              @PathVariable("user-id") Long userId,
+                                              @PathVariable("truck-id") Long truckId,
+                                              @PathVariable("company-id") Long companyId)
             throws UserException, AuthException, TruckException {
         return truckManagerService.searchParkingPlace(auth.getName(), userId, truckId, companyId);
     }

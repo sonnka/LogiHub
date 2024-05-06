@@ -6,6 +6,7 @@ import com.logihub.model.request.RegisterRequest;
 import com.logihub.model.request.UpdateParkingManagerRequest;
 import com.logihub.model.response.ParkingManagerDTO;
 import com.logihub.service.ParkingManagerService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -37,12 +38,14 @@ public class ParkingManagerController {
         return parkingManagerService.updateParkingManager(auth.getName(), userId, parkingManager);
     }
 
+    @Transactional
     @DeleteMapping("/api/parking-manager/{user-id}")
     public void deleteParkingManager(Authentication auth,
                                      @PathVariable("user-id") Long userId) throws UserException {
         parkingManagerService.deleteParkingManager(auth.getName(), userId);
     }
 
+    @Transactional
     @PatchMapping("/api/parking-manager/{user-id}/company/{company-id}")
     public ParkingManagerDTO changeParkingManagerCompany(Authentication auth,
                                                          @PathVariable("user-id") Long userId,

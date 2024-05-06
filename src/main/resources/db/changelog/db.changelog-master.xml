@@ -215,4 +215,24 @@
                                  constraintName="FK_TRUCK_MANAGERS_ON_USER" referencedColumnNames="user_id"
                                  referencedTableName="users"/>
     </changeSet>
+    <changeSet author="1 (generated)" id="1714814901949-27">
+        <insert tableName="users">
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="Admin"/>
+            <column name="email" value="admin@gmail.com"/>
+            <column name="password" value="$2a$10$qOQe2QxYuAujlHXVA2MrYueokXjwqPx3yt5BXh/LXlrGdIsrokL5O"/>
+            <column name="avatar" value="https://icon-library.com/images/admin-login-icon/admin-login-icon-26.jpg"/>
+            <column name="role" value="CHIEF_ADMIN"/>
+        </insert>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1714814901949-28">
+        <insert tableName="admins">
+            <column name="user_id" valueNumeric="(SELECT user_id FROM users WHERE email = 'admin@gmail.com')"/>
+            <column name="date_of_approving" valueDate="NULL"/>
+            <column name="date_of_adding" valueDate="NULL"/>
+            <column name="added_by" value="NULL"/>
+            <column name="is_approved" valueBoolean="TRUE"/>
+            <column name="is_new_account" valueBoolean="FALSE"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

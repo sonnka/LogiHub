@@ -105,7 +105,7 @@ public class TruckServiceImpl implements TruckService {
             throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
 
-        return truckRepository.findAllByTruckManager_CompanyAndTruckManagerIsEmpty(
+        return truckRepository.findAllByTruckManager_CompanyAndTruckManagerIsNull(
                 truckManager.getCompany(), pageable).map(ShortTruckDTO::new);
     }
 
@@ -145,13 +145,18 @@ public class TruckServiceImpl implements TruckService {
     }
 
     private TruckDTO toTruckDTO(Truck truck) {
+        TruckManagerDTO manager = null;
+        if (truck.getTruckManager() != null) {
+            manager = new TruckManagerDTO(truck.getTruckManager());
+        }
         return TruckDTO.builder()
+                .id(truck.getId())
                 .number(truck.getNumber())
                 .height(truck.getHeight())
                 .width(truck.getWidth())
                 .weight(truck.getWeight())
                 .length(truck.getLength())
-                .truckManager(new TruckManagerDTO(truck.getTruckManager()))
+                .truckManager(manager)
                 .build();
     }
 }

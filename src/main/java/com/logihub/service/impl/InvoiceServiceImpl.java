@@ -23,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -52,8 +54,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         newInvoice = invoiceRepository.save(newInvoice);
 
         if (type.equals(InvoiceType.LOADING_INVOICE) || type.equals(InvoiceType.UNLOADING_INVOICE)) {
-            itemService.addItems(newInvoice.getId(), invoice.getItemRequest());
-            newInvoice.setPrice(invoice.getItemRequest()
+            itemService.addItems(newInvoice.getId(), invoice.getItems());
+            newInvoice.setPrice(invoice.getItems()
                     .stream()
                     .mapToDouble(o -> o.getPrice() * o.getAmount())
                     .sum()
@@ -79,7 +81,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         double price = 0d;
 
         if (type.equals(InvoiceType.LOADING_INVOICE) || type.equals(InvoiceType.UNLOADING_INVOICE)) {
-            if (invoiceRequest.getItemRequest().isEmpty()) {
+            if (invoiceRequest.getItems().isEmpty()) {
                 throw new InvoiceException(InvoiceException.InvoiceExceptionProfile.INVALID_INVOICE);
             }
         } else {
@@ -127,7 +129,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 () -> new InvoiceException(InvoiceException.InvoiceExceptionProfile.INVOICE_NOT_FOUND)
         );
 
-        if (!Objects.equals(invoice.getParkingManager().getId(), truckManager.getId())) {
+        if (!Objects.equals(invoice.getTruckManager().getId(), truckManager.getId())) {
             throw new UserException(UserException.UserExceptionProfile.FORBIDDEN);
         }
 
@@ -171,7 +173,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 () -> new InvoiceException(InvoiceException.InvoiceExceptionProfile.INVOICE_NOT_FOUND)
         );
 
-        if (!invoice.getTruckManager().getId().equals(parkingManager.getId())) {
+        if (!invoice.getParkingManager().getId().equals(parkingManager.getId())) {
             throw new UserException(UserException.UserExceptionProfile.FORBIDDEN);
         }
 
@@ -277,12 +279,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private InvoiceDTO toInvoiceDTO(Invoice invoice) {
+        List<ItemDTO> items = new ArrayList<>();
+
+        if (!invoice.getItems().isEmpty()) {
+            items = invoice.getItems().stream().map(ItemDTO::new).toList();
+        }
+
         return InvoiceDTO.builder()
                 .id(invoice.getId())
                 .type(invoice.getType())
                 .truckNumber(invoice.getTruck().getNumber())
                 .placeNumber(invoice.getParkingPlace().getPlaceNumber())
-                .items(invoice.getItems().stream().map(ItemDTO::new).toList())
+                .items(items)
                 .truckManagerEmail(invoice.getTruckManager().getEmail())
                 .parkingManagerEmail(invoice.getParkingManager().getEmail())
                 .creationDate(invoice.getCreationDate())

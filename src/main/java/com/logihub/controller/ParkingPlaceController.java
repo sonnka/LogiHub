@@ -7,6 +7,7 @@ import com.logihub.model.request.UpdateParkingPlaceRequest;
 import com.logihub.model.response.ParkingPlaceDTO;
 import com.logihub.model.response.ShortParkingPlaceDTO;
 import com.logihub.service.ParkingPlaceService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,14 @@ public class ParkingPlaceController {
         return parkingPlaceService.createParkingPlace(auth.getName(), userId, parkingPlaceRequest);
     }
 
+    @GetMapping("/api/parking-manager/{user-id}/parking-places/{parking-place-id}")
+    public ParkingPlaceDTO getParkingPlace(Authentication auth,
+                                           @PathVariable("user-id") Long userId,
+                                           @PathVariable("parking-place-id") Long placeId)
+            throws UserException, ParkingPlaceException {
+        return parkingPlaceService.getParkingPlace(auth.getName(), userId, placeId);
+    }
+
     @PatchMapping("/api/parking-manager/{user-id}/parking-places/{parking-place-id}")
     public ParkingPlaceDTO updateParkingPlace(Authentication auth,
                                               @PathVariable("user-id") Long userId,
@@ -36,6 +45,7 @@ public class ParkingPlaceController {
         return parkingPlaceService.updateParkingPlace(auth.getName(), userId, placeId, parkingPlaceRequest);
     }
 
+    @Transactional
     @DeleteMapping("/api/parking-manager/{user-id}/parking-places/{parking-place-id}")
     public void deleteParkingPlace(Authentication auth,
                                    @PathVariable("user-id") Long userId,
@@ -59,6 +69,7 @@ public class ParkingPlaceController {
         return parkingPlaceService.getAllParkingPlacesByCompanyWithoutManager(auth.getName(), userId, pageable);
     }
 
+    @Transactional
     @PatchMapping("/api/parking-manager/{user-id}/parking-places/{parking-place-id}/remove-manager")
     public void removeParkingManager(Authentication auth,
                                      @PathVariable("user-id") Long userId,
@@ -67,6 +78,7 @@ public class ParkingPlaceController {
         parkingPlaceService.removeParkingManager(auth.getName(), userId, placeId);
     }
 
+    @Transactional
     @PatchMapping("/api/parking-manager/{user-id}/parking-places/{parking-place-id}/add-manager")
     public ParkingPlaceDTO addParkingManager(Authentication auth,
                                              @PathVariable("user-id") Long userId,

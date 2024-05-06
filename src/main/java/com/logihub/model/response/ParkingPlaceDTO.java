@@ -35,6 +35,7 @@ public class ParkingPlaceDTO {
     public ParkingPlaceDTO(ParkingPlace parkingPlace) {
         this.id = parkingPlace.getId();
         this.address = parkingPlace.getAddress();
+        this.placeNumber = parkingPlace.getPlaceNumber();
         this.minWidth = parkingPlace.getMinWidth();
         this.minHeight = parkingPlace.getMinHeight();
         this.minLength = parkingPlace.getMinLength();

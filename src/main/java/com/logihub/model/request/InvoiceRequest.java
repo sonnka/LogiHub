@@ -21,7 +21,7 @@ public class InvoiceRequest {
     @NotEmpty
     private String placeNumber;
 
-    private List<ItemRequest> itemRequest;
+    private List<ItemRequest> items;
 
     @NotNull
     @NotEmpty

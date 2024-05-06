@@ -53,7 +53,7 @@ public class InvoiceController {
         return invoiceService.getInvoicesByTruckManager(auth.getName(), userId, pageable);
     }
 
-    @GetMapping("/api/truck-manager/{user-id}/invoices/{truck-number}")
+    @GetMapping("/api/truck-manager/{user-id}/invoices/truck-number/{truck-number}")
     public Page<ShortInvoiceDTO> getInvoicesByTruckNumber(Authentication auth,
                                                           @PathVariable("user-id") Long userId,
                                                           @PathVariable("truck-number") String truckNumber,
@@ -106,7 +106,7 @@ public class InvoiceController {
         return invoiceService.getInvoicesByParkingManager(auth.getName(), userId, pageable);
     }
 
-    @GetMapping("/api/parking-manager/{user-id}/invoices/{place-number}")
+    @GetMapping("/api/parking-manager/{user-id}/invoices/place-number/{place-number}")
     public Page<ShortInvoiceDTO> getInvoicesByPlaceNumber(Authentication auth,
                                                           @PathVariable("user-id") Long userId,
                                                           @PathVariable("place-number") String placeNumber,
