@@ -19,8 +19,6 @@ public interface InvoiceService {
 
     InvoiceDTO signInvoiceByTruckManager(String email, Long userId, Long invoiceId) throws UserException, InvoiceException;
 
-    void downloadInvoice(String email, Long userId, Long invoiceId);
-
     InvoiceDTO getInvoiceByTruckManager(String email, Long userId, Long invoiceId) throws UserException, InvoiceException;
 
     InvoiceDTO getInvoiceByParkingManager(String email, Long userId, Long invoiceId) throws UserException, InvoiceException;

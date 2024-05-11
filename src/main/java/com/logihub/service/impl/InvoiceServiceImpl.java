@@ -144,11 +144,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void downloadInvoice(String email, Long userId, Long invoiceId) {
-        //ToDo
-    }
-
-    @Override
     public InvoiceDTO getInvoiceByTruckManager(String email, Long userId, Long invoiceId)
             throws UserException, InvoiceException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
