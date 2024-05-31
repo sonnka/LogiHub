@@ -153,27 +153,27 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteTruckManager(String email, Long adminId, Long userId)
             throws UserException {
-        authUtil.checkAdminByEmailAndId(email, adminId);
-
-        var truckManager = truckManagerRepository.findById(userId)
-                .orElseThrow(
-                        () -> new UserException(UserException.UserExceptionProfile.TRUCK_MANAGER_NOT_FOUND)
-                );
-
-        truckManagerService.deleteTruckManager(email, truckManager.getId());
+//        authUtil.checkAdminByEmailAndId(email, adminId);
+//
+//        var truckManager = truckManagerRepository.findById(userId)
+//                .orElseThrow(
+//                        () -> new UserException(UserException.UserExceptionProfile.TRUCK_MANAGER_NOT_FOUND)
+//                );
+//
+//        truckManagerService.deleteTruckManager(email, truckManager.getId());
     }
 
     @Override
     public void deleteParkingManager(String email, Long adminId, Long userId)
             throws UserException {
-        authUtil.checkAdminByEmailAndId(email, adminId);
-
-        var parkingManager = parkingManagerRepository.findById(userId)
-                .orElseThrow(
-                        () -> new UserException(UserException.UserExceptionProfile.PARKING_MANAGER_NOT_FOUND)
-                );
-
-        parkingManagerService.deleteParkingManager(email, parkingManager.getId());
+//        authUtil.checkAdminByEmailAndId(email, adminId);
+//
+//        var parkingManager = parkingManagerRepository.findById(userId)
+//                .orElseThrow(
+//                        () -> new UserException(UserException.UserExceptionProfile.PARKING_MANAGER_NOT_FOUND)
+//                );
+//
+//        parkingManagerService.deleteParkingManager(email, parkingManager.getId());
     }
 
     @Override

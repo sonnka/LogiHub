@@ -4,11 +4,13 @@ import com.logihub.model.response.LoginResponse;
 import com.logihub.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("http://localhost:4200")
 public class AuthController {
 
     private AuthService authService;
