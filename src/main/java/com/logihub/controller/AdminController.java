@@ -2,6 +2,7 @@ package com.logihub.controller;
 
 import com.logihub.exception.AuthException;
 import com.logihub.exception.DatabaseException;
+import com.logihub.exception.MailException;
 import com.logihub.exception.UserException;
 import com.logihub.model.request.UpdateAdminRequest;
 import com.logihub.model.response.AdminDTO;
@@ -78,21 +79,21 @@ public class AdminController {
     public void addAdmin(Authentication auth,
                          @PathVariable("admin-id") Long adminId,
                          @PathVariable("email") String email)
-            throws UserException, SecurityException, AuthException {
+            throws UserException, SecurityException, AuthException, MailException {
         adminService.addAdmin(auth.getName(), adminId, email);
     }
 
     @PostMapping("/api/admins/{admin-id}/approve/{new-admin-id}")
     public String approveAdmin(Authentication auth,
                                @PathVariable("admin-id") Long adminId,
-                               @PathVariable("new-admin-id") Long newAdminId) throws UserException {
+                               @PathVariable("new-admin-id") Long newAdminId) throws UserException, MailException {
         return adminService.approveAdmin(auth.getName(), adminId, newAdminId);
     }
 
     @PostMapping("/api/admins/{admin-id}/decline/{new-admin-id}")
     public void declineAdmin(Authentication auth,
                              @PathVariable("admin-id") Long adminId,
-                             @PathVariable("new-admin-id") Long newAdminId) throws UserException {
+                             @PathVariable("new-admin-id") Long newAdminId) throws UserException, MailException {
         adminService.declineAdmin(auth.getName(), adminId, newAdminId);
     }
 

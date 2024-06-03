@@ -21,15 +21,15 @@ public interface AdminService {
     AdminDTO getAdmin(String email, Long adminId) throws UserException;
 
     void addAdmin(String email, Long adminId, String newAdminEmail)
-            throws UserException, SecurityException, MailException, AuthException;
+            throws UserException, SecurityException, MailException, AuthException, com.logihub.exception.MailException;
 
     List<AdminDTO> getApprovedAdmins(String email) throws UserException;
 
     List<AdminDTO> getNotApprovedAdmins(String email) throws UserException;
 
-    String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException;
+    String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException, com.logihub.exception.MailException;
 
-    void declineAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException;
+    void declineAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException, com.logihub.exception.MailException;
 
     void updateAdmin(String email, Long adminId, UpdateAdminRequest updatedAdmin) throws UserException;
 

@@ -2,6 +2,7 @@ package com.logihub.service.impl;
 
 import com.logihub.exception.AuthException;
 import com.logihub.exception.DatabaseException;
+import com.logihub.exception.MailException;
 import com.logihub.exception.UserException;
 import com.logihub.model.entity.Admin;
 import com.logihub.model.enums.Role;
@@ -45,6 +46,7 @@ public class AdminServiceImpl implements AdminService {
     private ParkingManagerService parkingManagerService;
     private DatabaseHistoryService databaseHistoryService;
     private FileService fileService;
+    private MailService mailService;
 
 
     @Override
@@ -54,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addAdmin(String email, Long adminId, String newAdminEmail)
-            throws UserException, SecurityException, AuthException {
+            throws UserException, SecurityException, AuthException, MailException {
         var admin = authUtil.checkAdminByEmailAndId(email, adminId);
 
         var user = userRepository.findByEmailIgnoreCase(newAdminEmail).orElse(null);
@@ -73,10 +75,12 @@ public class AdminServiceImpl implements AdminService {
                 .build();
 
         adminRepository.save(newAdmin);
+
+        mailService.sendNewAdminMessage(newAdminEmail);
     }
 
     @Override
-    public String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException {
+    public String approveAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException {
         authUtil.checkAdminByEmailAndChief(email, adminId);
 
         var newAdmin = adminRepository.findById(newAdminId).orElseThrow(
@@ -94,11 +98,13 @@ public class AdminServiceImpl implements AdminService {
 
         adminRepository.save(newAdmin);
 
+        mailService.sendApprovedAdminMessage(newAdmin.getEmail(), password);
+
         return password;
     }
 
     @Override
-    public void declineAdmin(String email, Long adminId, Long newAdminId) throws UserException {
+    public void declineAdmin(String email, Long adminId, Long newAdminId) throws UserException, MailException {
         authUtil.checkAdminByEmailAndChief(email, adminId);
 
         var newAdmin = adminRepository.findById(newAdminId).orElseThrow(
@@ -109,6 +115,8 @@ public class AdminServiceImpl implements AdminService {
         }
 
         adminRepository.delete(newAdmin);
+
+        mailService.sendNotApprovedAdminMessage(newAdmin.getEmail());
     }
 
     @Override
