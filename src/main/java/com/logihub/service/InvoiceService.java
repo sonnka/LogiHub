@@ -35,19 +35,19 @@ public interface InvoiceService {
     Page<ShortInvoiceDTO> getInvoicesByPlaceNumber(String email, Long userId, String placeNumber,
                                                    Pageable pageable) throws UserException;
 
-    Page<ShortInvoiceDTO> getSignedInvoicesByTruckManager(String email, Long userId, Pageable pageable) throws UserException;
+    Page<ShortInvoiceDTO> getSignedInvoicesByTruckManager(String email, Long userId, String truckNumber, Pageable pageable) throws UserException;
 
-    Page<ShortInvoiceDTO> getSignedInvoicesByParkingManager(String email, Long userId, Pageable pageable) throws UserException;
+    Page<ShortInvoiceDTO> getSignedInvoicesByParkingManager(String email, Long userId, String placeNumber, Pageable pageable) throws UserException;
 
     Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByParkingManager(String email, Long userId,
-                                                                           Pageable pageable) throws UserException;
+                                                                           String truckNumber, Pageable pageable) throws UserException;
 
     Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByParkingManager(String email, Long userId,
-                                                                             Pageable pageable) throws UserException;
+                                                                             String placeNumber, Pageable pageable) throws UserException;
 
     Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByTruckManager(String email, Long userId,
-                                                                         Pageable pageable) throws UserException;
+                                                                         String truckNumber, Pageable pageable) throws UserException;
 
     Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByTruckManager(String email, Long userId,
-                                                                           Pageable pageable) throws UserException;
+                                                                           String placeNumber, Pageable pageable) throws UserException;
 }

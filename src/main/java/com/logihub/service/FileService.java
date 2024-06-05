@@ -1,6 +1,7 @@
 package com.logihub.service;
 
 import com.itextpdf.text.DocumentException;
+import com.logihub.exception.InvoiceException;
 import com.logihub.exception.UserException;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,8 +16,11 @@ public interface FileService {
     void generateMonthDatabaseReport(String email, Long adminId, HttpServletResponse response)
             throws IOException, DocumentException, UserException;
 
+    void generateInvoice(String email, Long userId, Long invoiceId, HttpServletResponse response)
+            throws IOException, DocumentException, UserException, InvoiceException;
+
     void generateDatabaseZipDump(HttpServletResponse response)
             throws SQLException, IOException, ClassNotFoundException;
 
-    boolean importDatabase(String sql) throws SQLException, ClassNotFoundException;
+    void importDatabase(String sql) throws SQLException, ClassNotFoundException;
 }

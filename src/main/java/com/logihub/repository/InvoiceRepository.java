@@ -28,4 +28,16 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
                                                                                         Boolean signedByParkingManager,
                                                                                         Boolean signedByTruckManager,
                                                                                         Pageable pageable);
+
+    Page<Invoice> findAllByParkingManagerAndParkingPlace_PlaceNumberContainingAndSignedByParkingManagerAndSignedByTruckManager(ParkingManager parkingManager,
+                                                                                                                               String number,
+                                                                                                                               Boolean signedByParkingManager,
+                                                                                                                               Boolean signedByTruckManager,
+                                                                                                                               Pageable pageable);
+
+    Page<Invoice> findAllByTruckManagerAndTruck_NumberContainingAndSignedByParkingManagerAndSignedByTruckManager(TruckManager truckManager,
+                                                                                                                 String number,
+                                                                                                                 Boolean signedByParkingManager,
+                                                                                                                 Boolean signedByTruckManager,
+                                                                                                                 Pageable pageable);
 }

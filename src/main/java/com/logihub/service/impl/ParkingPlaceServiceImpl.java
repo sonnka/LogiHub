@@ -130,7 +130,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
     }
 
     @Override
-    public ParkingPlaceDTO removeParkingManager(String email, Long userId, Long placeId)
+    public void removeParkingManager(String email, Long userId, Long placeId)
             throws UserException, ParkingPlaceException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
 
@@ -145,7 +145,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
         parkingPlace.setParkingManager(null);
 
-        return new ParkingPlaceDTO(parkingPlaceRepository.save(parkingPlace));
+        new ParkingPlaceDTO(parkingPlaceRepository.save(parkingPlace));
     }
 
     @Override

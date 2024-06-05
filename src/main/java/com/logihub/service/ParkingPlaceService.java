@@ -28,7 +28,7 @@ public interface ParkingPlaceService {
     Page<ShortParkingPlaceDTO> getAllParkingPlacesByCompanyWithoutManager(String email, Long userId,
                                                                           Pageable pageable) throws UserException;
 
-    ParkingPlaceDTO removeParkingManager(String email, Long userId, Long placeId) throws UserException,
+    void removeParkingManager(String email, Long userId, Long placeId) throws UserException,
             ParkingPlaceException;
 
     ParkingPlaceDTO addParkingManager(String email, Long userId, Long placeId) throws UserException,

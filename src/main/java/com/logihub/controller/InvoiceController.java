@@ -65,23 +65,26 @@ public class InvoiceController {
     @GetMapping("/api/truck-manager/{user-id}/invoices/signed")
     public Page<ShortInvoiceDTO> getSignedInvoicesByTruckManager(Authentication auth,
                                                                  @PathVariable("user-id") Long userId,
+                                                                 String truckNumber,
                                                                  Pageable pageable) throws UserException {
-        return invoiceService.getSignedInvoicesByTruckManager(auth.getName(), userId, pageable);
+        return invoiceService.getSignedInvoicesByTruckManager(auth.getName(), userId, truckNumber, pageable);
     }
 
     @GetMapping("/api/truck-manager/{user-id}/invoices/not-signed-by-parking-manager")
     public Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByParkingManager(Authentication auth,
                                                                                   @PathVariable("user-id") Long userId,
+                                                                                  String truckNumber,
                                                                                   Pageable pageable)
             throws UserException {
-        return invoiceService.getNotSignedTruckManagerInvoicesByParkingManager(auth.getName(), userId, pageable);
+        return invoiceService.getNotSignedTruckManagerInvoicesByParkingManager(auth.getName(), userId, truckNumber, pageable);
     }
 
     @GetMapping("/api/truck-manager/{user-id}/invoices/not-signed-by-truck-manager")
     public Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByTruckManager(Authentication auth,
                                                                                 @PathVariable("user-id") Long userId,
+                                                                                String truckNumber,
                                                                                 Pageable pageable) throws UserException {
-        return invoiceService.getNotSignedTruckManagerInvoicesByTruckManager(auth.getName(), userId, pageable);
+        return invoiceService.getNotSignedTruckManagerInvoicesByTruckManager(auth.getName(), userId, truckNumber, pageable);
     }
 
     @PatchMapping("/api/parking-manager/{user-id}/invoices/{invoice-id}")
@@ -118,24 +121,27 @@ public class InvoiceController {
     @GetMapping("/api/parking-manager/{user-id}/invoices/signed")
     public Page<ShortInvoiceDTO> getSignedInvoicesByParkingManager(Authentication auth,
                                                                    @PathVariable("user-id") Long userId,
+                                                                   String placeNumber,
                                                                    Pageable pageable) throws UserException {
-        return invoiceService.getSignedInvoicesByParkingManager(auth.getName(), userId, pageable);
+        return invoiceService.getSignedInvoicesByParkingManager(auth.getName(), userId, placeNumber, pageable);
     }
 
 
     @GetMapping("/api/parking-manager/{user-id}/invoices/not-signed-by-parking-manager")
     public Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByParkingManager(Authentication auth,
                                                                                     @PathVariable("user-id") Long userId,
+                                                                                    String placeNumber,
                                                                                     Pageable pageable)
             throws UserException {
-        return invoiceService.getNotSignedParkingManagerInvoicesByParkingManager(auth.getName(), userId, pageable);
+        return invoiceService.getNotSignedParkingManagerInvoicesByParkingManager(auth.getName(), userId, placeNumber, pageable);
     }
 
     @GetMapping("/api/parking-manager/{user-id}/invoices/not-signed-by-truck-manager")
     public Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByTruckManager(Authentication auth,
                                                                                   @PathVariable("user-id") Long userId,
+                                                                                  String placeNumber,
                                                                                   Pageable pageable)
             throws UserException {
-        return invoiceService.getNotSignedParkingManagerInvoicesByTruckManager(auth.getName(), userId, pageable);
+        return invoiceService.getNotSignedParkingManagerInvoicesByTruckManager(auth.getName(), userId, placeNumber, pageable);
     }
 }

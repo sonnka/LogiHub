@@ -81,7 +81,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         double price = 0d;
 
         if (type.equals(InvoiceType.LOADING_INVOICE) || type.equals(InvoiceType.UNLOADING_INVOICE)) {
-            if (invoiceRequest.getItems().isEmpty()) {
+            if (invoiceRequest.getItems() == null || invoiceRequest.getItems().isEmpty()) {
                 throw new InvoiceException(InvoiceException.InvoiceExceptionProfile.INVALID_INVOICE);
             }
         } else {
@@ -196,6 +196,10 @@ public class InvoiceServiceImpl implements InvoiceService {
                                                           Pageable pageable) throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
 
+        if (truckNumber == null || truckNumber.isEmpty()) {
+            return getInvoicesByTruckManager(email, userId, pageable);
+        }
+
         return invoiceRepository.findAllByTruckManagerAndTruck_NumberContaining(truckManager, truckNumber, pageable)
                 .map(this::toShortInvoiceDTO);
     }
@@ -205,14 +209,24 @@ public class InvoiceServiceImpl implements InvoiceService {
                                                           Pageable pageable) throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
 
+        if (placeNumber == null || placeNumber.isEmpty()) {
+            return getInvoicesByParkingManager(email, userId, pageable);
+        }
+
         return invoiceRepository.findAllByParkingManagerAndParkingPlace_PlaceNumberContaining(parkingManager,
                 placeNumber, pageable).map(this::toShortInvoiceDTO);
     }
 
     @Override
-    public Page<ShortInvoiceDTO> getSignedInvoicesByTruckManager(String email, Long userId, Pageable pageable)
+    public Page<ShortInvoiceDTO> getSignedInvoicesByTruckManager(String email, Long userId, String truckNumber, Pageable pageable)
             throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        if (truckNumber != null && !truckNumber.isEmpty()) {
+            return invoiceRepository.findAllByTruckManagerAndTruck_NumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                    truckManager, truckNumber, true, true, pageable
+            ).map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByTruckManagerAndSignedByParkingManagerAndSignedByTruckManager(
                 truckManager, true, true, pageable
@@ -220,9 +234,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Page<ShortInvoiceDTO> getSignedInvoicesByParkingManager(String email, Long userId, Pageable pageable)
+    public Page<ShortInvoiceDTO> getSignedInvoicesByParkingManager(String email, Long userId, String placeNumber, Pageable pageable)
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
+
+        if (placeNumber != null && !placeNumber.isEmpty()) {
+            return invoiceRepository.findAllByParkingManagerAndParkingPlace_PlaceNumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                            parkingManager, placeNumber, true, true, pageable)
+                    .map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByParkingManagerAndSignedByParkingManagerAndSignedByTruckManager(
                         parkingManager, true, true, pageable)
@@ -231,9 +251,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByParkingManager(String email, Long userId,
-                                                                                  Pageable pageable)
+                                                                                  String truckNumber, Pageable pageable)
             throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        if (truckNumber != null && !truckNumber.isEmpty()) {
+            return invoiceRepository.findAllByTruckManagerAndTruck_NumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                    truckManager, truckNumber, false, false, pageable
+            ).map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByTruckManagerAndSignedByParkingManagerAndSignedByTruckManager(
                 truckManager, false, false, pageable
@@ -242,9 +268,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByParkingManager(String email, Long userId,
-                                                                                    Pageable pageable)
+                                                                                    String placeNumber, Pageable pageable)
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
+
+        if (placeNumber != null && !placeNumber.isEmpty()) {
+            return invoiceRepository.findAllByParkingManagerAndParkingPlace_PlaceNumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                            parkingManager, placeNumber, false, false, pageable)
+                    .map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByParkingManagerAndSignedByParkingManagerAndSignedByTruckManager(
                         parkingManager, false, false, pageable)
@@ -253,9 +285,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Page<ShortInvoiceDTO> getNotSignedTruckManagerInvoicesByTruckManager(String email, Long userId,
-                                                                                Pageable pageable)
+                                                                                String truckNumber, Pageable pageable)
             throws UserException {
         var truckManager = authUtil.findTruckManagerByEmailAndId(email, userId);
+
+        if (truckNumber != null && !truckNumber.isEmpty()) {
+            return invoiceRepository.findAllByTruckManagerAndTruck_NumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                    truckManager, truckNumber, true, false, pageable
+            ).map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByTruckManagerAndSignedByParkingManagerAndSignedByTruckManager(
                 truckManager, true, false, pageable
@@ -264,9 +302,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Page<ShortInvoiceDTO> getNotSignedParkingManagerInvoicesByTruckManager(String email, Long userId,
-                                                                                  Pageable pageable)
+                                                                                  String placeNumber, Pageable pageable)
             throws UserException {
         var parkingManager = authUtil.findParkingManagerByEmailAndId(email, userId);
+
+        if (placeNumber != null && !placeNumber.isEmpty()) {
+            return invoiceRepository.findAllByParkingManagerAndParkingPlace_PlaceNumberContainingAndSignedByParkingManagerAndSignedByTruckManager(
+                            parkingManager, placeNumber, true, false, pageable)
+                    .map(this::toShortInvoiceDTO);
+        }
 
         return invoiceRepository.findAllByParkingManagerAndSignedByParkingManagerAndSignedByTruckManager(
                         parkingManager, true, false, pageable)
@@ -276,7 +320,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private InvoiceDTO toInvoiceDTO(Invoice invoice) {
         List<ItemDTO> items = new ArrayList<>();
 
-        if (!invoice.getItems().isEmpty()) {
+        if (invoice.getItems() != null && !invoice.getItems().isEmpty()) {
             items = invoice.getItems().stream().map(ItemDTO::new).toList();
         }
 
