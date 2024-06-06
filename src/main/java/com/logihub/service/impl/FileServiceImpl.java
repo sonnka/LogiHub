@@ -320,9 +320,7 @@ public class FileServiceImpl implements FileService {
 
         if (!invoice.getItems().isEmpty()) {
             document.add(new Paragraph("\n"));
-            Font temp = font12;
-            temp.setColor(new BaseColor(153, 192, 192));
-            Paragraph line8 = new Paragraph("Items", temp);
+            Paragraph line8 = new Paragraph("Items", font12);
             document.add(line8);
             document.add(new Paragraph("\n"));
 
@@ -371,10 +369,10 @@ public class FileServiceImpl implements FileService {
         document.add(new Paragraph("\n\n"));
         Paragraph line9 = new Paragraph("Signed by parking manager: "
                 + invoice.getSignedByParkingManagerDate()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm.ss")), font12);
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")), font12);
         Paragraph line10 = new Paragraph("Signed by truck manager: "
                 + invoice.getSignedByTruckManagerDate()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm.ss")), font12);
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")), font12);
         document.add(line9);
         document.add(line10);
     }
